@@ -1,0 +1,13 @@
+<mat-card class="todo-card" *ngIf="this.todo">
+  <mat-card-header>
+    <mat-card-title class="todo-card-owner">{{ this.todo.owner }}</mat-card-title>
+    <mat-card-subtitle class="user-card-category">{{ this.todo.category }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content *ngIf="!this.simple">
+    <p>Body: <span class="todo-card-body">{{ this.todo.body }}</span></p>
+    <p>Status <span class="todo-card-status">{{ this.todo.status }}</span></p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button data-test="viewProfileButton" *ngIf="this.simple" [routerLink]="['/users', this.todo._id]">View Profile</button>
+  </mat-card-actions>
+</mat-card>
