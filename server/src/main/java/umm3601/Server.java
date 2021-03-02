@@ -73,6 +73,8 @@ public class Server {
     // of the HTTP request
     server.post("/api/users", userController::addNewUser);
 
+    server.post("/api/todos", todoController::addNewTodo);
+
     server.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
       ctx.json(e); // you probably want to remove this in production
