@@ -29,11 +29,12 @@ import io.javalin.http.NotFoundResponse;
  */
 public class TodoController {
 
+  private static final String OWNER_KEY = "owner";
   private static final String CATEGORY_KEY = "category";
   private static final String STATUS_KEY = "status";
   private static final String BODY_KEY = "body";
 
-  static String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+  static String statusRegex = "^(false|False|True|true)$";
 
   private final JacksonMongoCollection<Todo> todoCollection;
 
@@ -86,25 +87,26 @@ public class TodoController {
 
     List<Bson> filters = new ArrayList<>(); // start with a blank document
 
-    if (ctx.queryParamMap().containsKey(CATEGORY_KEY)) {
-        int targetCategory = ctx.queryParam(CATEGORY_KEY, Integer.class).get();
-        filters.add(eq(CATEGORY_KEY, targetCategory));
-    }
-
-    if (ctx.queryParamMap().containsKey(STATUS_KEY)) {
-      filters.add(regex(STATUS_KEY,  Pattern.quote(ctx.queryParam(STATUS_KEY)), "i"));
-    }
-
     if (ctx.queryParamMap().containsKey(BODY_KEY)) {
-      filters.add(eq(BODY_KEY, ctx.queryParam(BODY_KEY)));
+      filters.add(regex(BODY_KEY,  Pattern.quote(ctx.queryParam(BODY_KEY)), "i"));
     }
-
-    String sortBy = ctx.queryParam("sortby", "owner"); //Sort by sort query param, default is owner
+    if (ctx.queryParamMap().containsKey(CATEGORY_KEY)) {
+      filters.add(regex(CATEGORY_KEY,  Pattern.quote(ctx.queryParam(CATEGORY_KEY)), "i"));
+    }
+    if(ctx.queryParamMap().containsKey(STATUS_KEY)){
+      boolean targetStatus = ctx.queryParam(STATUS_KEY, Boolean.class).get();
+      filters.add(eq(STATUS_KEY, targetStatus));
+    }
+    if(ctx.queryParamMap().containsKey(OWNER_KEY)){
+      filters.add(regex(OWNER_KEY,  Pattern.quote(ctx.queryParam(OWNER_KEY)), "i"));
+    }
+    String sortBy = ctx.queryParam("sortby", "body"); //Sort by sort query param, default is body
     String sortOrder = ctx.queryParam("sortorder", "asc");
 
     ctx.json(todoCollection.find(filters.isEmpty() ? new Document() : and(filters))
       .sort(sortOrder.equals("desc") ?  Sorts.descending(sortBy) : Sorts.ascending(sortBy))
       .into(new ArrayList<>()));
+
   }
 
   /**
@@ -116,8 +118,8 @@ public class TodoController {
     Todo newTodo = ctx.bodyValidator(Todo.class)
       .check(tdo -> tdo.owner != null && tdo.owner.length() > 0) //Verify that the todo has a owner that is not blank
       .check(tdo -> tdo.category != null) // Verify that the provided category is > 0
-      .check(tdo -> tdo.body.matches("^(admin|editor|viewer)$")) // Verify that the body is one of the valid bodys
-      .check(tdo -> tdo.status != null) // Verify that the todo has a status that is not blank
+      .check(tdo -> tdo.body != null) // Verify that the body is one of the valid bodys
+      .check(tdo -> tdo.status.toString().matches(statusRegex)) // Verify that the todo has a status that is not blank
       .get();
 
     todoCollection.insertOne(newTodo);

@@ -63,7 +63,7 @@ export class TodoService {
     filteredTodos = filteredTodos.sort((a, b) => {
       const A = a[sortField].toString().toLowerCase();
       const B = b[sortField].toString().toLowerCase();
-      return(B.localeCompare(A));
+      return(A.localeCompare(B));
     });
     return filteredTodos;
   }
