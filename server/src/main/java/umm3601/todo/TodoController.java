@@ -68,15 +68,7 @@ public class TodoController {
     }
   }
 
-  /**
-   * Delete the todo specified by the `id` parameter in the request.
-   *
-   * @param ctx a Javalin HTTP context
-   */
-  public void deleteTodo(Context ctx) {
-    String id = ctx.pathParam("id");
-    todoCollection.deleteOne(eq("_id", new ObjectId(id)));
-  }
+
 
   /**
    * Get a JSON response with a list of all the todos.
