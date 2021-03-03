@@ -34,7 +34,7 @@ export class TodoService {
     });
   }
 
-  filterTodos(todos: Todo[], filters: { status?: string; owner?: string; body?: string; limit?: number}): Todo[] {
+  filterTodos(todos: Todo[], filters: { category?: string; status?: string; owner?: string; body?: string; limit?: number}): Todo[] {
 
     let filteredTodos = todos;
 
@@ -50,6 +50,9 @@ export class TodoService {
     }
     if(filters.body){
       filteredTodos = filteredTodos.filter(todo => todo.body.toLowerCase().indexOf(filters.body) !==-1);
+    }
+    if(filters.category){
+      filteredTodos = filteredTodos.filter(todo=> todo.category.toLowerCase().indexOf(filters.category) !==-1);
     }
     if(filters.limit){
       filteredTodos = filteredTodos.slice(0, filters.limit);
