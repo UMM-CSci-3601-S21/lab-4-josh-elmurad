@@ -61,19 +61,22 @@ public class Server {
     // List users, filtered using query parameters
     server.get("/api/users", userController::getUsers);
 
-    server.get("/api/todos", todoController::getTodos);
+
 
     // Get the specified user
     server.get("/api/users/:id", userController::getUser);
 
+    server.post("/api/users", userController::addNewUser);
     // Delete the specified user
     server.delete("/api/users/:id", userController::deleteUser);
 
+    server.get("/api/todos", todoController::getTodos);
     // Add new user with the user info being in the JSON body
     // of the HTTP request
-    server.post("/api/users", userController::addNewUser);
 
     server.post("/api/todos", todoController::addNewTodo);
+
+    server.get("/api/todos/:id", todoController::getTodo);
 
     server.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);

@@ -43,21 +43,6 @@
         </div>
       </mat-card-content>
       </mat-card>
-
-        <mat-card>
-          <div fxLayout="row wrap" fxLayoutGap="10px" class="sort-by-radio">
-            <label id="sort-by">Sort By:</label>
-            <mat-radio-group aria-label="Sort by" [(ngModel)]="sortBy" data-test="sortByRadio">
-              <mat-radio-button value="body" (input)="updateSort($event.target.value)">Body</mat-radio-button>
-              <mat-radio-button value="owner" (input)="updateSort($event.target.value)">Owner</mat-radio-button>
-              <mat-radio-button value="status" (input)="updateSort($event.target.value)">Status</mat-radio-button>
-              <mat-radio-button value="category" (input)="updateSort($event.target.value)">Category</mat-radio-button>
-            </mat-radio-group>
-          </div>
-        </mat-card>
-
-
-
         <div fxLayout="row">
           <div fxFlex fxFlex.gt-sm="100" fxFlexOffset.gt-sm="0" *ngIf="serverFilteredTodos">
             <div>
