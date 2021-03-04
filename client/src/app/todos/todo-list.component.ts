@@ -48,13 +48,6 @@ export class TodoListComponent implements OnInit, OnDestroy {
       this.serverFilteredTodos, { status: this.todoStatus, owner: this.todoOwner, body: this.todoBody, limit: this.todoLimit });
   }
 
-  public updateSort(sortField: string) {
-    this.filteredTodos = this.todoService.sortTodos(
-      this.serverFilteredTodos, sortField);
-      this.updateFilter();
-
-  }
-
   ngOnInit(): void {
     this.getTodosFromServer();
   }

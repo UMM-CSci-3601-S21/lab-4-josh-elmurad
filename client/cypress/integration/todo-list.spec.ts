@@ -54,4 +54,15 @@ describe('Todo list', () => {
     });
   });
 
+  it('Should click add todo and go to the right URL', () => {
+    // Click on the button for adding a new user
+    page.addTodoButton().click();
+
+    // The URL should end with '/users/new'
+    cy.url().should(url => expect(url.endsWith('/todos/new')).to.be.true);
+
+    // On the page we were sent to, We should see the right title
+    cy.get('.add-todo-title').should('have.text', 'New Todo');
+  });
+
 });
