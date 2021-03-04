@@ -114,8 +114,8 @@ describe('AddTodoComponent', () => {
       expect(catControl.valid).toBeFalsy();
     });
 
-    it('should be fine with "Cooking"', () => {
-      catControl.setValue('Cooking');
+    it('should be fine with "Gaming"', () => {
+      catControl.setValue('Gaming');
       expect(catControl.valid).toBeTruthy();
     });
 
@@ -137,8 +137,8 @@ describe('AddTodoComponent', () => {
       expect(bodyControl.valid).toBeFalsy();
     });
 
-    it('should allow the body "Baking an apple pie with mom"', () => {
-      bodyControl.setValue('Baking an apple pie with mom');
+    it('should allow the body "This is a test body"', () => {
+      bodyControl.setValue('This is a test body');
       expect(bodyControl.valid).toBeTruthy();
     });
   });
